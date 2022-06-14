@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.diten.tech.pdfrenderer.R
+import com.github.chrisbanes.photoview.PhotoView
 import java.lang.ref.WeakReference
 
 class PDFItemViewHolder(itemView: View):RecyclerView.ViewHolder(itemView) {
@@ -14,7 +15,7 @@ class PDFItemViewHolder(itemView: View):RecyclerView.ViewHolder(itemView) {
     val view = WeakReference(itemView)
 
     var textView: TextView? = null
-    var imageView:ImageView? = null
+    var imageView: PhotoView ? = null
 
     var bitmap: Bitmap? = null
 

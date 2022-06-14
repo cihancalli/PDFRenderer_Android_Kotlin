@@ -1,5 +1,6 @@
 package com.diten.tech.pdfrenderer.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Build
@@ -45,6 +46,7 @@ class MainActivity : AppCompatActivity() {
 
         initFlow()
         initList()
+        setListener()
 
         viewModel.pdf(this,"https://file-examples.com/storage/fe6869c4db62a7ab6a021f9/2017/10/file-example_PDF_1MB.pdf")
 
@@ -69,6 +71,9 @@ class MainActivity : AppCompatActivity() {
 
                             totalPDFBitmapList.clear()
                             totalPDFBitmapList.addAll(it.list)
+
+                            @SuppressLint("SetTextI18n")
+                            textViewPage.text = "${currentIndex + 1} / ${totalPDFBitmapList.size}"
 
                             reload()
                         }
@@ -103,6 +108,28 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
+    private fun setListener() {
+
+        buttonLeft.setOnClickListener {
+            currentIndex -=1
+            if (currentIndex <=0){
+                currentIndex = 0
+            }
+            recyclerView.smoothScrollToPosition(currentIndex)
+            "${currentIndex + 1} / ${totalPDFBitmapList.size}".also { textViewPage.text = it }
+        }
+
+        buttonRight.setOnClickListener {
+            currentIndex +=1
+            if (currentIndex > totalPDFBitmapList.size -1){
+                currentIndex = totalPDFBitmapList.size -1
+            }
+            recyclerView.smoothScrollToPosition(currentIndex)
+            textViewPage.text = "${currentIndex + 1} / ${totalPDFBitmapList.size}"
+        }
+    }
+
     private fun initList(){
         recyclerView.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
         adapter = PDFAdapter {
@@ -112,6 +139,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
 
         recyclerView.addOnScrollListener(object :RecyclerView.OnScrollListener() {
+
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
 
@@ -119,6 +147,8 @@ class MainActivity : AppCompatActivity() {
                     currentIndex = (recyclerView.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
 
                     // current page
+                    @SuppressLint("SetTextI18n")
+                    textViewPage.text = "${currentIndex + 1} / ${totalPDFBitmapList.size}"
                 }
             }
         })

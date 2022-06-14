@@ -6,7 +6,7 @@
     android:background="@color/white"
     android:paddingVertical="20dp">
 
-    <ImageView
+    <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/imageView"
         android:scaleType="fitXY"
         android:adjustViewBounds="true"
